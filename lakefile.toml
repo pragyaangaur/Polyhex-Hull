@@ -1,0 +1,15 @@
+name = "PolyhexHull"
+version = "0.1.0"
+defaultTargets = ["PolyhexHull"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "4bff7981c2c387b562358eab3d6bc6878f2bcd2f"
+
+[[lean_lib]]
+name = "PolyhexHull"
