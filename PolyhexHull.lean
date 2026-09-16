@@ -1,2 +1,2 @@
-import PolyhexHull.Defs
 import PolyhexHull.Arith
+import PolyhexHull.Growth
