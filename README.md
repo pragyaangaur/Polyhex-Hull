@@ -6,6 +6,10 @@ This repository contains a Lean 4 proof, built on Mathlib, of Conjecture 2 in th
 
 We prove the sharper bound ⌈n² + 14n/3⌉ / 6. The two bounds differ by 1/6 when 3 divides n, and they are equal for all other n. A path made of three straight runs of almost equal length reaches the sharper bound for every n. The accompanying paper proves this last fact. The Lean code covers only the upper bound.
 
+## Paper
+
+The accompanying preprint is *The maximum area of the convex hull of a polyhex*, [arXiv:2609.30310](https://arxiv.org/abs/2609.30310). It proves both the upper bound and the matching construction. The maximum areas, scaled by six, are sequence [A399934](https://oeis.org/A399934) in the OEIS.
+
 ## Main statements
 
 ```lean
