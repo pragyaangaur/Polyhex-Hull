@@ -1,0 +1,181 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Kurz's conjecture on the maximum area of the convex hull of a polyhex"
+  description: >-
+    A polyhex is an edge-to-edge connected system of cells of the regular hexagonal tiling. Kurz
+    (Convex hulls of polyominoes, Beiträge Algebra Geom. 49 (2008), Conjecture 2) conjectured
+    that the convex hull of a polyhex with n cells of unit area has area at most
+    ⌊n² + 14n/3 + 1⌋ / 6. This formalization proves the conjecture, and the sharper bound
+    ⌈n² + 14n/3⌉ / 6, which differs from Kurz's bound by 1/6 when 3 divides n and agrees with it
+    otherwise. The statements are made in the Euclidean plane for the regular hexagonal tiling,
+    with area measured in units of one cell. The proof writes the hull as the hull of the cell
+    centres plus one hexagon, bounds its area through the area of the centre hull and three of
+    its widths, and controls both with a spanning tree of the polyhex. The accompanying paper
+    (arXiv:2609.30310) also shows that the sharp bound is attained for every n by a path made of
+    three straight runs, so that it is the exact maximum. That construction is not formalized.
+  authors:
+    - "Pragyaan Gaur"
+  license: "MIT"
+  responsible_maintainers:
+    - "Pragyaan Gaur"
+
+classification:
+  arxiv: ["math.CO", "math.MG"]
+  msc2020: ["05B50", "52A38", "52C20", "68V20"]
+
+sources:
+  - title: "The maximum area of the convex hull of a polyhex"
+    authors:
+      - "Pragyaan Gaur"
+    id: "arXiv:2609.30310"
+    type: paper
+    location: "https://arxiv.org/abs/2609.30310"
+    relationship: formalizes
+    note: >-
+      The author's paper. Its main theorem gives the exact maximum hull area ⌈n² + 14n/3⌉ / 6.
+      This repository formalizes the upper bound. The matching construction and the exhaustive
+      computation over polyhexes with at most twelve cells are in the paper and in
+      scripts/brute.py, and they are not formalized. The paper's section on formal verification
+      describes this development.
+    author_endorsement: participated
+  - title: "Convex hulls of polyominoes"
+    authors:
+      - "Sascha Kurz"
+    id: "arXiv:math/0702786"
+    type: paper
+    location: "Beiträge zur Algebra und Geometrie 49 (2008), 125-136"
+    relationship: other
+    note: >-
+      Poses the problem. Conjecture 2 of this paper is stated as kurz_conjecture in
+      Challenge.lean.
+  - title: "Principia Math, problem MathDB 380445: informal proof of the upper bound"
+    id: "MathDB 380445"
+    type: other
+    location: "https://principia-math.com"
+    relationship: other
+    note: >-
+      The first informal proof of the upper bound was produced by the automated proof system of
+      the Principia Math project in September 2026. The author replaced two of its steps with
+      proofs of the author's own (the insertion lemma for the spanning tree and the final
+      arithmetic step), and the Lean proof follows the paper.
+  - title: "OEIS A399934: maximum area of the convex hull of a polyhex with n cells, times 6"
+    id: "A399934"
+    type: other
+    location: "https://oeis.org/A399934"
+    relationship: background
+    note: "The sequence of maximum areas, approved on 24 September 2026."
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Formalized: Kurz's bound (kurz_conjecture) and the sharper bound (kurz_conjecture_sharp) for
+    every polyhex, stated for the regular hexagonal tiling of the Euclidean plane, and the area
+    √3/2 of one cell (volume_hexagon), which fixes the unit of area. The proof works in axial
+    coordinates with a skewed hexagon of area 1 (PolyhexHull.Defs to PolyhexHull.Main), and
+    PolyhexHull.Bridge transfers the result to the regular tiling with a linear map of
+    determinant √3/2. Not formalized: that the sharp bound is attained for every n, which is
+    proved in the paper by an explicit path, and the exhaustive computation in scripts/brute.py.
+    The formalization therefore proves an upper bound and does not by itself establish that
+    ⌈n² + 14n/3⌉ / 6 is the maximum.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - "Kurz's Conjecture 2 for polyhexes"
+    - "The sharper upper bound ⌈n² + 14n/3⌉ / 6"
+
+automation:
+  methods:
+    - method: autonomous
+      models: []
+      framework: "Principia Math automated proof system"
+      tool_setup: >-
+        Produced the first informal proof of the upper bound, published on Principia Math as the
+        solution to MathDB 380445 in September 2026. The underlying model and its version were
+        not disclosed to the author.
+      cost:
+        wall_time: "not known"
+        spend_usd: "not tracked"
+        hardware: "Principia Math infrastructure"
+      prompting_notes: "n/a"
+    - method: agent
+      models: ["Claude Opus 5 (claude-opus-5)"]
+      framework: "Claude Code, versions 2.1.271 to 2.1.284"
+      tool_setup: >-
+        Used between 16 September and 1 October 2026 to help develop the proof strategy, to
+        write the Lean 4 formalization of the upper bound against Mathlib, to write the
+        enumeration program scripts/brute.py, and to write the paper.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "subscription-based"
+        hardware: "API-only, with Lean built on the author's laptop"
+      prompting_notes: >-
+        The author directed the work, wrote the proofs of the insertion lemma and the final
+        arithmetic step without AI help, and checked each stage against the Lean compiler.
+    - method: agent
+      models: ["Claude Opus 5.5 (claude-opus-5-5)"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Used on 26 October 2026 to prepare this Palomar submission: the upgrade to Lean v4.35.0
+        and the Mathlib v4.35.0 tag, the port of every file to the Lean module system,
+        Challenge.lean in Euclidean coordinates, PolyhexHull.Statement, the transfer proof in
+        PolyhexHull.Bridge, Solution.lean, comparator.json and this file.
+      cost:
+        wall_time: "a few hours"
+        spend_usd: "subscription-based"
+        hardware: "API-only, with Lean built on the author's laptop"
+      prompting_notes: "n/a"
+  spend_usd: "subscription-based"
+  notes: >-
+    The problem was chosen by the author from the Principia Math problem list. The first informal
+    proof came from the Principia Math automated system. The author then used Claude through
+    Claude Code to develop the proof and to write the whole Lean development, the search program
+    and the paper, and replaced two steps of the first proof with his own. The author checked the
+    mathematics, read the statements in Challenge.lean against Kurz's conjecture, and is
+    responsible for the content. No AI system is listed as an author.
+
+fidelity:
+  divergences: >-
+    Kurz speaks of regular hexagons of unit area. The formal cells are regular hexagons with
+    opposite edges at distance 1, of area √3/2, and every bound is multiplied by the area of one
+    cell, which is the same statement after scaling. A polyhex is a finite nonempty set of cells
+    that is connected in the adjacency graph of the tiling, where two cells are adjacent when
+    they share an edge. Kurz does not say whether the system must be nonempty, and the empty set
+    is excluded. Area is Lebesgue measure on ℝ × ℝ, valued in the extended nonnegative reals.
+    The attainment of the sharp bound, which makes it the exact maximum, is not formalized.
+
+review:
+  status: "author-verified"
+  reviewers: []
+  notes: >-
+    The author checked the informal proof and compared the statements in Challenge.lean with
+    Kurz's paper. The Lean proofs use only propext, Classical.choice and Quot.sound, which
+    scripts/Axioms.lean prints. scripts/brute.py checks the exact maximum independently for
+    every polyhex with at most twelve cells (8,182,213 fixed polyhexes). Kurz was told of the
+    result on 12 October 2026 and has not reviewed it. No independent human review of the
+    formalization has taken place.
+
+alignment:
+  namespace: "KurzPolyhex"
+  statements:
+    - source: "Conjecture 2 of Kurz, Convex hulls of polyominoes (2008)"
+      lean: "KurzPolyhex.kurz_conjecture"
+      module: "Challenge"
+      status: proved
+      note: "Kurz's bound, with area in units of one cell."
+    - source: "Upper bound in the main theorem of arXiv:2609.30310"
+      lean: "KurzPolyhex.kurz_conjecture_sharp"
+      module: "Challenge"
+      status: proved
+      note: "The sharp upper bound. Its attainment is not formalized."
+    - source: "Area of one cell"
+      lean: "KurzPolyhex.volume_hexagon"
+      module: "Challenge"
+      status: proved
+      note: "Fixes the unit of area used in the two bounds."
+
+acknowledgements: >-
+  Built on Lean 4 and Mathlib. The problem is due to Sascha Kurz.

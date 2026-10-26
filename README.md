@@ -52,6 +52,8 @@ Let `s = n - 1`, and let `a`, `b` and `c` count the edges of a spanning tree in 
 | `Main.lean` | This file puts the pieces together and proves the main theorems. |
 | `HexArea.lean` | This file proves that the hexagon has area 1. |
 | `Euclidean.lean` | This file proves that the cells are regular and gives the Euclidean statement. |
+| `Statement.lean` | This file repeats the definitions of `Challenge.lean`. |
+| `Bridge.lean` | This file transfers the main theorems to the regular hexagonal tiling of `Challenge.lean`. |
 
 ## Building
 
@@ -61,7 +63,7 @@ lake build
 lake env lean scripts/Axioms.lean
 ```
 
-The last command prints the axioms that the main theorems use. The only axioms are `propext`, `Quot.sound` and `Classical.choice`, and the code contains no `sorry`.
+The project uses Lean `v4.35.0` and the Mathlib tag `v4.35.0`, and every Lean file uses the module system. The paper describes the earlier build on Lean `v4.35.0-rc1`, and apart from the module headers the proofs did not change in the upgrade. The last command prints the axioms that the main theorems use. The only axioms are `propext`, `Quot.sound` and `Classical.choice`, and the code contains no `sorry`.
 
 ## Computation
 
@@ -70,6 +72,22 @@ The script `scripts/brute.py` lists every polyhex with at most N cells. It compu
 ```bash
 python3 scripts/brute.py 12
 ```
+
+## Palomar files
+
+The repository is laid out for the [Palomar](https://palomar-registry.org) registry of machine-checked results.
+
+* `Challenge.lean` states the advertised theorems with `sorry` and imports only Mathlib. It describes the regular hexagonal tiling directly in Euclidean coordinates: a cell with axial coordinates `(q, r)` has centre `(q + r/2, (√3/2) r)`, and every cell is a translate of a regular hexagon with opposite edges at distance 1. It states Kurz's bound, the sharper bound, and the area `√3/2` of one cell, which is the unit of area in both bounds.
+* `PolyhexHull/Statement.lean` repeats the definitions of `Challenge.lean` character for character, because `lake comparator` needs them to be identical on both sides.
+* `PolyhexHull/Bridge.lean` proves that the linear map `(q, r) ↦ (q + r/2, (√3/2) r)` carries the axial model of `Defs.lean` onto the regular tiling and multiplies every area by `√3/2`. The axial theorems therefore give the Euclidean ones.
+* `Solution.lean` repeats the statements of `Challenge.lean` and proves them from `Bridge.lean`.
+* `comparator.json` names the three theorems, so that `lake comparator` can check that each proof in `Solution.lean` proves exactly the statement in `Challenge.lean` with only the standard axioms.
+* `formalization.yaml` records the sources, the scope, the known divergences and how the work was produced.
+* `.github/workflows/palomar-preflight.yml` runs Palomar's own mechanical verification on a commit without submitting it.
+
+## How this was made
+
+The first informal proof of the upper bound was produced by the automated proof system of the Principia Math project in September 2026, whose underlying model was not disclosed. Pragyaan Gaur replaced two of its steps, the insertion lemma for the spanning tree and the final arithmetic step, with proofs of the author's own. Claude Opus 5 (Anthropic), used through Claude Code versions 2.1.271 to 2.1.284 between 16 September and 1 October 2026, helped develop the proof strategy and wrote the Lean formalization, the search program and the paper. Claude Opus 5.5 prepared the Palomar files, the bridge to Euclidean coordinates and the upgrade to Lean `v4.35.0` on 26 October 2026. Pragyaan Gaur checked the mathematics and is responsible for the content. No AI system is an author.
 
 ## Credits
 

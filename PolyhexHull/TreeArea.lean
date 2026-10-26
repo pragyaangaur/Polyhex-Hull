@@ -1,5 +1,9 @@
-import PolyhexHull.Growth
-import PolyhexHull.Transport
+module
+
+public import PolyhexHull.Growth
+public import PolyhexHull.Transport
+
+@[expose] public section
 
 /-!
 # Area of the hull of the centres

@@ -1,0 +1,12 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "KurzPolyhex.volume_hexagon",
+    "KurzPolyhex.kurz_conjecture",
+    "KurzPolyhex.kurz_conjecture_sharp"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

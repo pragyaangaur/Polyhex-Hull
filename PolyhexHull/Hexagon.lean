@@ -1,4 +1,8 @@
-import PolyhexHull.Transport
+module
+
+public import PolyhexHull.Transport
+
+@[expose] public section
 
 /-!
 # The hexagon as a zonotope

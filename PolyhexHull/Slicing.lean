@@ -1,4 +1,8 @@
-import PolyhexHull.Defs
+module
+
+public import PolyhexHull.Defs
+
+@[expose] public section
 
 /-!
 # Area growth by slicing

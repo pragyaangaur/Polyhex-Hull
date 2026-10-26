@@ -1,7 +1,11 @@
-import PolyhexHull.Arith
-import PolyhexHull.Connect
-import PolyhexHull.Hexagon
-import PolyhexHull.TreeArea
+module
+
+public import PolyhexHull.Arith
+public import PolyhexHull.Connect
+public import PolyhexHull.Hexagon
+public import PolyhexHull.TreeArea
+
+@[expose] public section
 
 /-!
 # Kurz's hexagon conjecture

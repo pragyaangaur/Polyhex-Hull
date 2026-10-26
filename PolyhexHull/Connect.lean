@@ -1,4 +1,8 @@
-import PolyhexHull.Growth
+module
+
+public import PolyhexHull.Growth
+
+@[expose] public section
 
 /-!
 # Connected polyhexes have growth orders

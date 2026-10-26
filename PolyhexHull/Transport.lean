@@ -1,4 +1,8 @@
-import PolyhexHull.Slicing
+module
+
+public import PolyhexHull.Slicing
+
+@[expose] public section
 
 /-!
 # Arbitrary directions

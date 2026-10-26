@@ -1,4 +1,8 @@
-import PolyhexHull.Main
+module
+
+public import PolyhexHull.Main
+
+@[expose] public section
 
 /-!
 # The cell has area one

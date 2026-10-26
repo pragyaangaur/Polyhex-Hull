@@ -1,4 +1,8 @@
-import PolyhexHull.HexArea
+module
+
+public import PolyhexHull.HexArea
+
+@[expose] public section
 
 /-!
 # The Euclidean picture
