@@ -68,9 +68,21 @@ lemma volume_convexHull_region (S : Finset (ℤ × ℤ)) :
       = volume hexagon * volume (convexHull ℝ (Polyhex.region S)) := by
   rw [region_eq, ← LinearMap.image_convexHull, volume_shear_image, volume_hexagon']
 
-lemma hexGraph_eq : hexGraph = Polyhex.hexGraph := rfl
+lemma hexGraph_eq : hexGraph = Polyhex.hexGraph := by
+  ext x y
+  simp only [hexGraph, SimpleGraph.fromRel_adj]
+  change (x ≠ y ∧ (y - x ∈ Polyhex.units ∨ x - y ∈ Polyhex.units)) ↔ y - x ∈ Polyhex.units
+  constructor
+  · rintro ⟨-, h | h⟩
+    · exact h
+    · simpa using Polyhex.neg_mem_units h
+  · intro h
+    refine ⟨fun hxy => ?_, Or.inl h⟩
+    subst hxy
+    exact Polyhex.hexGraph.loopless.irrefl x h
 
-lemma isPolyhex_iff (S : Finset (ℤ × ℤ)) : IsPolyhex S ↔ Polyhex.IsPolyhex S := Iff.rfl
+lemma isPolyhex_iff (S : Finset (ℤ × ℤ)) : IsPolyhex S ↔ Polyhex.IsPolyhex S := by
+  rw [IsPolyhex, Polyhex.IsPolyhex, hexGraph_eq]
 
 theorem kurz_conjecture' (S : Finset (ℤ × ℤ)) (hS : IsPolyhex S) :
     volume (convexHull ℝ (region S))

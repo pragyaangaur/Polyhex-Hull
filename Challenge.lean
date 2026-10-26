@@ -40,18 +40,12 @@ namespace KurzPolyhex
 /-- The six steps between the axial coordinates of neighbouring cells of the hexagonal tiling. -/
 def hexSteps : Finset (ℤ × ℤ) := {(1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (-1, 1)}
 
-/-- The adjacency graph of the hexagonal tiling: two cells are adjacent when their axial
-coordinates differ by one of the six steps, that is, when the two hexagons share an edge. -/
-def hexGraph : SimpleGraph (ℤ × ℤ) where
-  Adj x y := y - x ∈ hexSteps
-  symm := ⟨fun x y (h : y - x ∈ hexSteps) => by
-    show x - y ∈ hexSteps
-    rw [← neg_sub]
-    simp only [hexSteps, Finset.mem_insert, Finset.mem_singleton] at h ⊢
-    rcases h with h | h | h | h | h | h <;> rw [h] <;> decide⟩
-  loopless := ⟨fun x (h : x - x ∈ hexSteps) => by
-    rw [sub_self] at h
-    exact absurd h (by decide)⟩
+/-- The adjacency graph of the hexagonal tiling: two different cells are adjacent when their axial
+coordinates differ by one of the six steps, that is, when the two hexagons share an edge. Since
+`hexSteps` is closed under negation and does not contain `0`, this is the same as asking that
+`y - x ∈ hexSteps`. -/
+def hexGraph : SimpleGraph (ℤ × ℤ) :=
+  SimpleGraph.fromRel fun x y => y - x ∈ hexSteps
 
 /-- A polyhex is a finite, nonempty set of cells that is connected in `hexGraph`, so that its
 hexagons form an edge-to-edge connected system. -/
