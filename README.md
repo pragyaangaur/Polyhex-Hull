@@ -77,6 +77,8 @@ python3 scripts/brute.py 12
 
 The repository is laid out for the [Palomar](https://palomar-registry.org) registry of machine-checked results.
 
+The three theorems are registered on Palomar as [PALOMAR-2026-10-27-000022](https://palomar-registry.org/entry?id=PALOMAR-2026-10-27-000022&version=1), registered on 27 October 2026. The registered version is commit `aad7fde`, and later commits to this repository do not change that record.
+
 * `Challenge.lean` states the advertised theorems with `sorry` and imports only Mathlib. It describes the regular hexagonal tiling directly in Euclidean coordinates: a cell with axial coordinates `(q, r)` has centre `(q + r/2, (√3/2) r)`, and every cell is a translate of a regular hexagon with opposite edges at distance 1. It states Kurz's bound, the sharper bound, and the area `√3/2` of one cell, which is the unit of area in both bounds.
 * `PolyhexHull/Statement.lean` repeats the definitions of `Challenge.lean` character for character, because `lake comparator` needs them to be identical on both sides.
 * `PolyhexHull/Bridge.lean` proves that the linear map `(q, r) ↦ (q + r/2, (√3/2) r)` carries the axial model of `Defs.lean` onto the regular tiling and multiplies every area by `√3/2`. The axial theorems therefore give the Euclidean ones.
