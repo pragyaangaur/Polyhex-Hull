@@ -23,7 +23,7 @@ project:
 
 classification:
   arxiv: ["math.CO", "math.MG"]
-  msc2020: ["05B50", "52A38", "52C20", "68V20"]
+  msc2020: ["05B50", "52A38", "52C20"]
 
 sources:
   - title: "The maximum area of the convex hull of a polyhex"

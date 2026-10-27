@@ -91,4 +91,4 @@ The first informal proof of the upper bound was produced by the automated proof 
 
 ## Credits
 
-The informal proof first appeared on [Principia Math](https://principia-math.com) as the solution to problem MathDB 380445. Pragyaan Gaur wrote the formal proof and the computations.
+The problem is Conjecture 2 of Sascha Kurz. The first informal proof of the upper bound was produced by the automated proof system of [Principia Math](https://principia-math.com) as the solution to problem MathDB 380445. Pragyaan Gaur directed the work, proved the insertion lemma and the final arithmetic step, checked all the mathematics and the statements in `Challenge.lean`, and is responsible for the content. The Lean formalization and the search program `scripts/brute.py` were written with Claude under the author's direction, as described in the section above.
