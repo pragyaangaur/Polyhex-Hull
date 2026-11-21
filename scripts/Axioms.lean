@@ -11,3 +11,7 @@ import Solution
 #print axioms KurzPolyhex.volume_hexagon
 #print axioms KurzPolyhex.kurz_conjecture
 #print axioms KurzPolyhex.kurz_conjecture_sharp
+#print axioms Polyhex.washtub_unique
+#print axioms Polyhex.extremal_growth
+#print axioms Polyhex.Growth.exists_wide
+#print axioms Polyhex.Growth.rooted_walk
