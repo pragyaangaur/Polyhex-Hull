@@ -4,6 +4,7 @@ public import PolyhexHull.Arith
 public import PolyhexHull.Connect
 public import PolyhexHull.Hexagon
 public import PolyhexHull.TreeArea
+public import PolyhexHull.Widths
 
 @[expose] public section
 
@@ -56,10 +57,10 @@ lemma volume_add_singleton (s : Set (ℝ × ℝ)) (b : ℝ × ℝ) : volume (s +
   rw [add_singleton, image_add_right]
   exact measure_preimage_add_right _ _ _
 
-/-- The main estimate, in terms of any growth order. -/
-theorem volume_hull_le_growth {S : Finset Cell} (g : Growth S) :
+/-- The main estimate, in terms of any growth order and the actual sum of the three widths. -/
+theorem volume_hull_le_widths {S : Finset Cell} (g : Growth S) :
     volume (convexHull ℝ (region S)) ≤ ENNReal.ofReal
-      ((g.pairs g.s : ℝ) / 2 + 1 + g.s + (max (g.count 0) (max (g.count 1) (g.count 2)) : ℕ) / 3) := by
+      ((g.pairs g.s : ℝ) / 2 + 1 + (Wsum S : ℝ) / 3) := by
   classical
   -- extremal cells for the three forms
   have hne : (Finset.range (g.s + 1)).Nonempty := ⟨0, by simp⟩
@@ -141,18 +142,18 @@ theorem volume_hull_le_growth {S : Finset Cell} (g : Growth S) :
   have harea := g.volume_hull_pts_le g.s le_rfl
   rw [← hC] at harea
   -- widths
-  have hW := g.width_sum_le M N hMs hNs
-  have hWr : A 0 - B 0 + (A 1 - B 1) + (A 2 - B 2)
-      ≤ 3 * (g.s : ℝ) + (max (g.count 0) (max (g.count 1) (g.count 2)) : ℕ) := by
-    simp only [Fin.sum_univ_three] at hW
-    have : ((form 0 (g.pt (M 0)) - form 0 (g.pt (N 0)) + (form 1 (g.pt (M 1)) - form 1 (g.pt (N 1)))
-        + (form 2 (g.pt (M 2)) - form 2 (g.pt (N 2))) : ℤ) : ℝ)
-        ≤ ((3 * g.s + (max (g.count 0) (max (g.count 1) (g.count 2)) : ℕ) : ℤ) : ℝ) := by
-      exact_mod_cast hW
-    push_cast at this
-    simp only [A, B]
+  have hext : g.IsExt M N := fun k => by
+    refine ⟨hMs k, hNs k, (hiF_eq (g.pt_mem (hMs k)) fun d hd => ?_).symm,
+      (loF_eq (g.pt_mem (hNs k)) fun d hd => ?_).symm⟩
+    · obtain ⟨i, hi, rfl⟩ := g.mem_iff.mp hd
+      exact hM k i (by simp; omega)
+    · obtain ⟨i, hi, rfl⟩ := g.mem_iff.mp hd
+      exact hN k i (by simp; omega)
+  have hWeq : A 0 - B 0 + (A 1 - B 1) + (A 2 - B 2) = (Wsum S : ℝ) := by
+    rw [g.Wsum_eq hext]
+    simp only [A, B, Fin.sum_univ_three]
     push_cast
-    linarith
+    ring
   have hAB : ∀ k, B k ≤ A k := fun k => by
     have := hform k _ (g.pt_mem (Nat.zero_le g.s))
     exact this.1.trans this.2
@@ -195,6 +196,17 @@ theorem volume_hull_le_growth {S : Finset Cell} (g : Growth S) :
     _ ≤ _ := by
         apply ENNReal.ofReal_le_ofReal
         linarith
+
+/-- The main estimate, in terms of any growth order. -/
+theorem volume_hull_le_growth {S : Finset Cell} (g : Growth S) :
+    volume (convexHull ℝ (region S)) ≤ ENNReal.ofReal
+      ((g.pairs g.s : ℝ) / 2 + 1 + g.s + (max (g.count 0) (max (g.count 1) (g.count 2)) : ℕ) / 3) := by
+  refine (volume_hull_le_widths g).trans (ENNReal.ofReal_le_ofReal ?_)
+  have hW : ((Wsum S : ℤ) : ℝ)
+      ≤ ((3 * g.s + (max (g.count 0) (max (g.count 1) (g.count 2)) : ℕ) : ℤ) : ℝ) := by
+    exact_mod_cast g.Wsum_le
+  push_cast at hW ⊢
+  linarith
 
 /-- **Kurz's Conjecture 2, sharp form.** For an edge-connected set of `n` hexagonal cells, the
 convex hull of their union has area at most `⌈n² + 14n/3⌉ / 6`. -/
