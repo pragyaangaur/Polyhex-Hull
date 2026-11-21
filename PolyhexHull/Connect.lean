@@ -15,26 +15,27 @@ namespace Polyhex
 
 open Finset
 
-theorem exists_growth {S : Finset Cell} (hS : IsPolyhex S) : Nonempty (Growth S) := by
+/-- A connected polyhex has a growth order rooted at any chosen cell. -/
+theorem exists_growth_root {S : Finset Cell} (hS : IsPolyhex S) {x0 : Cell} (hx0 : x0 ∈ S) :
+    ∃ g : Growth S, g.pt 0 = x0 := by
   classical
-  obtain ⟨x0, hx0⟩ := hS.1
-  have claim : ∀ k, k < S.card → ∃ T ⊆ S, T.card = k + 1 ∧ Nonempty (Growth T) := by
+  have claim : ∀ k, k < S.card → ∃ T ⊆ S, T.card = k + 1 ∧ ∃ g : Growth T, g.pt 0 = x0 := by
     intro k
     induction k with
     | zero =>
       intro _
-      refine ⟨{x0}, by simpa using hx0, by simp, ⟨?_⟩⟩
-      exact
+      refine ⟨{x0}, by simpa using hx0, by simp, ?_⟩
+      refine ⟨
         { s := 0
           pt := fun _ => x0
           par := fun _ => 0
           par_lt := fun j h1 h2 => by omega
           step := fun j h1 h2 => by omega
           image_eq := by ext; simp
-          injOn := fun i hi j hj _ => by simp at hi hj; omega }
+          injOn := fun i hi j hj _ => by simp at hi hj; omega }, rfl⟩
     | succ k ih =>
       intro hk
-      obtain ⟨T, hTS, hTc, ⟨g⟩⟩ := ih (by omega)
+      obtain ⟨T, hTS, hTc, g, hg0⟩ := ih (by omega)
       obtain ⟨w, hwS, hwT⟩ : ∃ w ∈ S, w ∉ T := by
         by_contra h
         push Not at h
@@ -48,8 +49,8 @@ theorem exists_growth {S : Finset Cell} (hS : IsPolyhex S) : Nonempty (Growth S)
       obtain ⟨i, hi', hipt⟩ := g.mem_iff.mp hd1
       set u := d.snd.1 with hu
       refine ⟨insert u T, insert_subset_iff.mpr ⟨d.snd.2, hTS⟩,
-        by rw [card_insert_of_notMem hd2, hTc], ⟨?_⟩⟩
-      exact
+        by rw [card_insert_of_notMem hd2, hTc], ?_⟩
+      refine ⟨
         { s := g.s + 1
           pt := fun j => if j = g.s + 1 then u else g.pt j
           par := fun j => if j = g.s + 1 then i else g.par j
@@ -82,9 +83,16 @@ theorem exists_growth {S : Finset Cell} (hS : IsPolyhex S) : Nonempty (Growth S)
               exfalso; apply hd2
               rw [← hab]; exact g.pt_mem (by omega)
             · simp only [haa, hbb, ite_false] at hab
-              exact g.injOn (by simp; omega) (by simp; omega) hab }
+              exact g.injOn (by simp; omega) (by simp; omega) hab }, ?_⟩
+      simp [hg0]
   obtain ⟨T, hTS, hTc, hg⟩ := claim (S.card - 1) (by have := hS.1.card_pos; omega)
   have : T = S := eq_of_subset_of_card_le hTS (by have := hS.1.card_pos; omega)
-  exact this ▸ hg
+  subst this
+  exact hg
+
+theorem exists_growth {S : Finset Cell} (hS : IsPolyhex S) : Nonempty (Growth S) := by
+  obtain ⟨x0, hx0⟩ := hS.1
+  obtain ⟨g, -⟩ := exists_growth_root hS hx0
+  exact ⟨g⟩
 
 end Polyhex
