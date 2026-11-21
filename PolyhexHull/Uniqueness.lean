@@ -50,10 +50,10 @@ lemma count_of_pattern {x y : ℕ} {b : Bool} (hxy : x ≤ y) (hy : y ≤ g.s)
   have hf : ∀ k, g.count k = #{i ∈ Icc 1 g.s | cls (sw b (std x y i)) = k} := fun k => by
     unfold count; congr 1; exact filter_congr fun i hi => by rw [hp i hi]
   have c0 : {i ∈ Icc 1 g.s | cls (sw b (std x y i)) = 0} = {i ∈ Icc 1 g.s | ¬ i ≤ x ∧ i ≤ y} :=
-    filter_congr fun i _ => by rw [cls_sw_std]; cases b <;> split_ifs <;> simp_all <;> omega
+    filter_congr fun i _ => by rw [cls_sw_std]; cases b <;> split_ifs <;> simp_all
   have cA : {i ∈ Icc 1 g.s | cls (sw b (std x y i)) = (if b then 2 else 1)}
       = {i ∈ Icc 1 g.s | i ≤ x} :=
-    filter_congr fun i _ => by rw [cls_sw_std]; cases b <;> split_ifs <;> simp_all <;> omega
+    filter_congr fun i _ => by rw [cls_sw_std]; cases b <;> split_ifs <;> simp_all
   have cB : {i ∈ Icc 1 g.s | cls (sw b (std x y i)) = (if b then 1 else 2)}
       = {i ∈ Icc 1 g.s | ¬ i ≤ y} :=
     filter_congr fun i _ => by rw [cls_sw_std]; cases b <;> split_ifs <;> simp_all <;> omega

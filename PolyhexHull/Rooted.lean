@@ -71,7 +71,7 @@ lemma cls_sw_std (b : Bool) (x y i : ℕ) :
   unfold sw std
   cases b <;> split_ifs <;> decide
 
-lemma pat_id {i N0 N1 M0 M1 : ℕ} {e : Cell} (hi : 1 ≤ i) (hA : N0 ≤ N1) (hB : M0 ≤ M1)
+lemma pat_id {i N0 N1 M0 M1 : ℕ} {e : Cell} (_hi : 1 ≤ i) (hA : N0 ≤ N1) (hB : M0 ≤ M1)
     (key : (e = (1, 0) ∧ isg i M0 N0 = 1 ∧ isg i M1 N1 = 1) ∨
       (e = (0, 1) ∧ isg i M0 N0 = 1 ∧ isg i M1 N1 = 0) ∨
       (e = (1, -1) ∧ isg i M0 N0 = 0 ∧ isg i M1 N1 = 1)) :
@@ -80,12 +80,12 @@ lemma pat_id {i N0 N1 M0 M1 : ℕ} {e : Cell} (hi : 1 ≤ i) (hA : N0 ≤ N1) (h
   rcases key with ⟨rfl, h0, h1⟩ | ⟨rfl, h0, h1⟩ | ⟨rfl, h0, h1⟩ <;> simp only [isg] at h0 h1 <;>
     split_ifs at h0 h1 <;> split_ifs <;> first | rfl | (exfalso; omega)
 
-lemma pat_sig {i N0 N1 M0 M1 : ℕ} {e : Cell} (hi : 1 ≤ i) (hA : N1 < N0) (hB : M1 < M0)
+lemma pat_sig {i N0 N1 M0 M1 : ℕ} {e : Cell} (_hi : 1 ≤ i) (hA : N1 < N0) (hB : M1 < M0)
     (key : (e = (1, 0) ∧ isg i M0 N0 = 1 ∧ isg i M1 N1 = 1) ∨
       (e = (0, 1) ∧ isg i M0 N0 = 1 ∧ isg i M1 N1 = 0) ∨
       (e = (1, -1) ∧ isg i M0 N0 = 0 ∧ isg i M1 N1 = 1)) :
     e = sw true (std (max N0 N1) (min M0 M1) i) := by
-  simp only [sw, std, if_true]
+  simp only [sw, std, ite_true]
   rcases key with ⟨rfl, h0, h1⟩ | ⟨rfl, h0, h1⟩ | ⟨rfl, h0, h1⟩ <;> simp only [isg] at h0 h1 <;>
     split_ifs at h0 h1 <;> split_ifs <;> first | rfl | (exfalso; omega)
 
