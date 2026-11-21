@@ -35,6 +35,10 @@ The following results show that this model matches the words of the conjecture.
 * `euclid_hexVertex_succ` proves that two neighbouring corners of a Euclidean cell differ by a rotation of sixty degrees about its centre. Every cell is therefore a regular hexagon.
 * `volume_euclid_hexagon` proves that a Euclidean cell has area 1.
 
+## Uniqueness
+
+`washtub_unique` in `PolyhexHull/Uniqueness.lean` proves that every polyhex whose hull reaches the bound is the washtub, up to a lattice symmetry and a translation. The washtub is the three-run path `W(i, j, k)` with `i = n/3`, `j = (n+1)/3` and `k = (n-1)/3`. The informal proof is due to Sascha Kurz, who found it with the help of Claude, and Claude Opus 5.5 wrote the Lean formalisation in November 2026. It uses only the three standard axioms.
+
 ## Proof outline
 
 Let `s = n - 1`, and let `a`, `b` and `c` count the edges of a spanning tree in the three lattice directions. The hull of the polyhex is the hull of the cell centres plus one hexagon. Its area is at most the area of the centre hull, plus 1, plus a third of the sum of three widths of the centre hull. Two estimates on the spanning tree bound the area and the widths, and a short integer inequality finishes the proof.
