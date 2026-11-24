@@ -1,5 +1,7 @@
 # Polyhex-Hull: a Lean proof of Kurz's conjecture on polyhexes
 
+[![Paperlane Lean: builds](https://pragyaangaur.dev/Paperlane/lean/pragyaangaur/Polyhex-Hull.svg)](https://pragyaangaur.dev/Paperlane/lean/pragyaangaur/Polyhex-Hull.html)
+
 This repository contains a Lean 4 proof, built on Mathlib, of Conjecture 2 in the paper *Convex hulls of polyominoes* by Sascha Kurz (Beiträge zur Algebra und Geometrie 49 (2008), [arXiv:math/0702786](https://arxiv.org/abs/math/0702786)). Kurz states the conjecture as follows.
 
 > The area of the convex hull of any edge-to-edge connected system of n regular hexagons of unit area is at most ⌊n² + 14n/3 + 1⌋ / 6.
